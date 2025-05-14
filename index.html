@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BoatMaster Ukraine - Найкращі човни для активного відпочинку</title>
+    
+    <!-- Tailwind CSS через CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Alpine.js Intersect плагин ДОЛЖЕН быть перед Alpine.js -->
+    <script defer src="https://unpkg.com/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Alpine.js через CDN -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Font Awesome для іконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Swiper.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <!-- Swiper.js JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+
+        .banner-content {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .swiper-button-next,
+        .swiper-button-prev {
+            color: #2563eb !important;
+            background: white;
+            width: 40px !important;
+            height: 40px !important;
+            border-radius: 50%;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .swiper-button-next::after,
+        .swiper-button-prev::after {
+            font-size: 18px !important;
+        }
+
+        .swiper-pagination-bullet-active {
+            background: #2563eb !important;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header x-data="{ mobileMenuOpen: false }" @click.outside="mobileMenuOpen = false" class="bg-white shadow-lg fixed w-full z-50">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <!-- Логотип -->
+                <a href="#" class="text-2xl font-bold text-blue-600">BoatMaster</a>
+
+                <!-- Основна навігація (десктоп) -->
+                <nav class="hidden lg:flex space-x-8">
+                    <a href="#categories" class="text-gray-600 hover:text-blue-600">Категорії</a>
+                    <a href="#advantages" class="text-gray-600 hover:text-blue-600">Переваги</a>
+                    <a href="#products" class="text-gray-600 hover:text-blue-600">Каталог</a>
+                    <a href="#about" class="text-gray-600 hover:text-blue-600">Про нас</a>
+                    <a href="#reviews" class="text-gray-600 hover:text-blue-600">Відгуки</a>
+                </nav>
+
+                <!-- Кнопки справа -->
+                <div class="flex items-center space-x-6">
+                    <!-- Порівняння -->
+                    <div x-data="{ compareCount: 20 }" class="relative">
+                        <button class="text-gray-600 hover:text-blue-600">
+													<i class="fa-solid fa-scale-unbalanced"></i>
+                            <span x-show="compareCount > 0"
+																	x-cloak
+                                  x-text="compareCount"
+                                  class="absolute -top-2 -right-2 bg-blue-600 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
+                            </span>
+                        </button>
+                    </div>
+                    
+                    <!-- Кошик -->
+                    <div x-data="{ cartCount: 4 }" class="relative">
+                        <button class="text-gray-600 hover:text-blue-600">
+                            <i class="fas fa-shopping-cart text-xl"></i>
+                            <span x-show="cartCount > 0" 
+																	x-cloak
+                                  x-text="cartCount"
+                                  class="absolute -top-2 -right-2 bg-blue-600 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
+                            </span>
+                        </button>
+                    </div>
+
+                    <!-- Бургер-меню -->
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" 
+                            class="lg:hidden text-gray-600 hover:text-blue-600 focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Мобільна навігація -->
+            <nav x-show="mobileMenuOpen"
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 -translate-y-4"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 -translate-y-4"
+                 class="lg:hidden py-4 space-y-3">
+                <a href="#categories" @click="mobileMenuOpen = false" class="block text-gray-600 hover:text-blue-600 hover:bg-gray-50 px-4 py-2 rounded-lg">Категорії</a>
+                <a href="#advantages" @click="mobileMenuOpen = false" class="block text-gray-600 hover:text-blue-600 hover:bg-gray-50 px-4 py-2 rounded-lg">Переваги</a>
+                <a href="#products" @click="mobileMenuOpen = false" class="block text-gray-600 hover:text-blue-600 hover:bg-gray-50 px-4 py-2 rounded-lg">Каталог</a>
+                <a href="#about" @click="mobileMenuOpen = false" class="block text-gray-600 hover:text-blue-600 hover:bg-gray-50 px-4 py-2 rounded-lg">Про нас</a>
+                <a href="#reviews" @click="mobileMenuOpen = false" class="block text-gray-600 hover:text-blue-600 hover:bg-gray-50 px-4 py-2 rounded-lg">Відгуки</a>
+            </nav>
+        </div>
+    </header>
+
+		<main>
+			<!-- 1. Баннер -->
+			<section class="pt-32 pb-12 relative" 
+							x-data="{ shown: false }" 
+							x-init="setTimeout(() => shown = true, 100)"
+							x-cloak>
+					<!-- Фонове зображення -->
+					<div class="absolute inset-0 z-0 transition-opacity duration-1000" :class="{ 'opacity-0': !shown, 'opacity-100': shown }">
+							<img src="https://images.unsplash.com/photo-1520255870062-bd79d3865de7" 
+									alt="Фон банера" 
+									class="w-full h-full object-cover">
+							<div class="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-blue-900/75"></div>
+					</div>
+					
+					<!-- Контент банера -->
+					<div class="container mx-auto px-4 relative z-10">
+							<div class="grid lg:grid-cols-2 gap-12 items-center">
+									<div class="text-white max-w-xl banner-content transition-all duration-1000" 
+											:class="{ 'opacity-0 translate-x-[-50px]': !shown, 'opacity-100 translate-x-0': shown }">
+											<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+													Відкрийте світ водних пригод
+											</h1>
+											<p class="text-lg md:text-xl mb-8 text-blue-100">
+													Найкращі човни для незабутнього відпочинку на воді від українського виробника
+											</p>
+											<div class="flex flex-wrap gap-4">
+													<button class="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-blue-50 transition-all transform hover:scale-105">
+															<span class="relative">Підібрати човен</span>
+													</button>
+													<button class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white/10 transition-all">
+															Каталог
+													</button>
+											</div>
+									</div>
+									<div class="relative hidden lg:block banner-content transition-all duration-1000" 
+											:class="{ 'opacity-0 translate-x-[50px]': !shown, 'opacity-100 translate-x-0': shown }">
+											<div class="absolute -top-10 -left-10 w-20 h-20 bg-blue-500/20 rounded-full blur-xl"></div>
+											<div class="absolute -bottom-10 -right-10 w-32 h-32 bg-blue-300/20 rounded-full blur-xl"></div>
+											
+											<div class="relative z-10 bg-gradient-to-br from-white/10 to-white/5 rounded-2xl p-4 backdrop-blur-sm">
+													<img src="https://images.unsplash.com/photo-1465784029491-ddcd9f9f817d?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTg4fHxib2F0fGVufDB8fDB8fHww" 
+															alt="Човен" 
+															class="w-full h-auto rounded-xl shadow-2xl transform hover:scale-[1.02] transition-transform duration-300">
+													<div class="absolute top-6 left-6 right-6 flex justify-between items-center gap-4">
+															<div class="bg-white rounded-2xl shadow-xl p-3 flex items-center gap-3 backdrop-blur-sm">
+																	<div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
+																			<i class="fas fa-star text-white"></i>
+																	</div>
+																	<div>
+																			<p class="text-xs text-gray-600 font-medium">Рейтинг</p>
+																			<p class="font-bold text-blue-600">4.9/5.0</p>
+																	</div>
+															</div>
+															<div class="bg-white rounded-2xl shadow-xl p-3 backdrop-blur-sm">
+																	<div class="text-center">
+																			<p class="text-xs text-gray-600 font-medium">Від</p>
+																			<p class="font-bold text-blue-600">25 000 ₴</p>
+																	</div>
+															</div>
+													</div>
+											</div>
+									</div>
+							</div>
+					</div>
+
+					<!-- Топ відгуки -->
+					<div class="container mx-auto px-4">
+							<div class="mt-32 grid md:grid-cols-3 gap-8 relative z-20">
+									<!-- Відгук 1 -->
+									<div x-data="{ shown: false }" 
+											x-intersect="shown = true"
+											class="transition-all duration-700"
+											:class="{ 'opacity-0 translate-y-[50px]': !shown, 'opacity-100 translate-y-0': shown }"
+											style="transition-delay: 0ms">
+											<div class="bg-white rounded-xl shadow-xl p-6 transform hover:-translate-y-2 transition-transform duration-300">
+													<div class="flex items-center justify-between mb-6">
+															<div class="flex items-center gap-4">
+																	<img src="https://i.pravatar.cc/150?img=1" alt="Клієнт" class="w-14 h-14 rounded-full object-cover">
+																	<div>
+																			<h3 class="font-bold">Олександр Петренко</h3>
+																			<div class="flex items-center gap-1 text-yellow-400">
+																					<i class="fas fa-star"></i>
+																					<i class="fas fa-star"></i>
+																					<i class="fas fa-star"></i>
+																					<i class="fas fa-star"></i>
+																					<i class="fas fa-star"></i>
+																			</div>
+																	</div>
+															</div>
+															<div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center">
+																	<i class="fas fa-quote-right text-blue-600"></i>
+															</div>
+													</div>
+													<p class="text-gray-600 mb-4 line-clamp-2">Чудовий човен Navigator 330! Використовую другий сезон для риболовлі, дуже задоволений якістю та стійкістю.</p>
+													<div class="flex items-center justify-between text-sm">
+															<span class="text-gray-500">2 місяці використування</span>
+															<span class="text-blue-600 font-medium">Navigator 330</span>
+													</div>
+											</div>
+									</div>
+
+									<!-- Відгук 2 -->
+									<div x-data="{ shown: false }" 
+											x-intersect="shown = true"
+											class="transition-all duration-700"
+											:class="{ 'opacity-0 translate-y-[50px]': !shown, 'opacity-100 translate-y-0': shown }"
+											style="transition-delay: 200ms">
+											<div class="bg-white rounded-xl shadow-xl p-6 transform hover:-translate-y-2 transition-transform duration-300">
+													<div class="flex items-center justify-between mb-6">
+															<div class="flex items-center gap-4">
+																	<img src="https://i.pravatar.cc/150?img=2" alt="Клієнт" class="w-14 h-14 rounded-full object-cover">
+																	<div>
+																			<h3 class="font-bold">Марія Коваленко</h3>
+																			<div class="flex items-center gap-1 text-yellow-400">
+																					<i class="fas fa-star"></i>
+																					<i class="fas fa-star"></i>
+																					<i class="fas fa-star"></i>
+																					<i class="fas fa-star"></i>
+																					<i class="fas fa-star"></i>
+																			</div>
+																	</div>
+															</div>
+															<div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center">
+																	<i class="fas fa-quote-right text-blue-600"></i>
+															</div>
+													</div>
+													<p class="text-gray-600 mb-4 line-clamp-2">Купили Explorer 280 для сімейного відпочинку. Легкий у транспортуванні та надійний на воді. Рекомендую!</p>
+													<div class="flex items-center justify-between text-sm">
+															<span class="text-gray-500">1 місяць використування</span>
+															<span class="text-blue-600 font-medium">Explorer 280</span>
+													</div>
+											</div>
+									</div>
+
+									<!-- Відгук 3 -->
+									<div x-data="{ shown: false }" 
+											x-intersect="shown = true"
+											class="transition-all duration-700"
+											:class="{ 'opacity-0 translate-y-[50px]': !shown, 'opacity-100 translate-y-0': shown }"
+											style="transition-delay: 400ms">
+											<div class="bg-white rounded-xl shadow-xl p-6 transform hover:-translate-y-2 transition-transform duration-300">
+													<div class="flex items-center justify-between mb-6">
+															<div class="flex items-center gap-4">
+																	<img src="https://i.pravatar.cc/150?img=3" alt="Клієнт" class="w-14 h-14 rounded-full object-cover">
+																	<div>
+																			<h3 class="font-bold">Віталій Мельник</h3>
+																			<div class="flex items-center gap-1 text-yellow-400">
+																					<i class="fas fa-star"></i>
+																					<i class="fas fa-star"></i>
+																					<i class="fas fa-star"></i>
+																					<i class="fas fa-star"></i>
+																					<i class="fas fa-star"></i>
+																			</div>
+																	</div>
+															</div>
+															<div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center">
+																	<i class="fas fa-quote-right text-blue-600"></i>
+															</div>
+													</div>
+													<p class="text-gray-600 mb-4 line-clamp-2">ProMarine 420 - найкраща інвестиція для професійної риболовлі. Відмінна стійкість та комфорт.</p>
+													<div class="flex items-center justify-between text-sm">
+															<span class="text-gray-500">3 місяці використування</span>
+															<span class="text-blue-600 font-medium">ProMarine 420</span>
+													</div>
+											</div>
+									</div>
+							</div>
+							<!-- Кнопка "Всі відгуки" -->
+							<div class="text-center mt-8">
+									<button onclick="scrollToReviews()" class="bg-white/10 backdrop-blur-sm border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white/20 transition-all flex items-center gap-2 mx-auto">
+											<span class="flex items-center gap-2">
+													<span>Більше відгуків</span>
+													<i class="fas fa-arrow-down animate-bounce"></i>
+											</span>
+									</button>
+							</div>
+					</div>
+			</section>
+
+			<!-- 2. Категорії -->
+			<section id="categories" class="py-20 bg-white">
+					<div class="container mx-auto px-4">
+							<div class="text-center max-w-3xl mx-auto mb-16">
+									<span class="text-blue-600 font-semibold tracking-wider uppercase text-sm">Наш асортимент</span>
+									<h2 class="text-3xl md:text-4xl font-bold mt-2 mb-4">Оберіть свій ідеальний човен</h2>
+									<div class="w-20 h-1 bg-blue-600 mx-auto mb-4"></div>
+									<p class="text-gray-600">Широкий вибір човнів для будь-яких потреб: від риболовлі до активного відпочинку на воді</p>
+							</div>
+							<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+									<div x-data="{ shown: false }" 
+											x-intersect="shown = true"
+											class="transition-all duration-700"
+											:class="{ 'opacity-0 translate-y-[50px]': !shown, 'opacity-100 translate-y-0': shown }"
+											style="transition-delay: 0ms">
+											<div class="relative rounded-lg overflow-hidden cursor-pointer group">
+													<img src="https://images.unsplash.com/photo-1533537124921-db3248c9fa93?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTk0fHxib2F0fGVufDB8fDB8fHww" 
+															alt="Моторні човни" 
+															class="w-full h-64 object-cover transition duration-300 group-hover:scale-110">
+													<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-black/20 opacity-0 group-hover:opacity-100 transition duration-300">
+															<div class="absolute bottom-0 left-0 right-0 p-6">
+																	<h3 class="text-white text-xl font-semibold transform transition duration-300 translate-y-4 group-hover:translate-y-0">
+																			Моторні човни
+																	</h3>
+																	<p class="text-gray-300 mt-2 opacity-0 group-hover:opacity-100 transition duration-300 delay-100">
+																			Потужні та надійні човни для будь-яких завдань
+																	</p>
+															</div>
+													</div>
+											</div>
+									</div>
+
+									<div x-data="{ shown: false }" 
+											x-intersect="shown = true"
+											class="transition-all duration-700"
+											:class="{ 'opacity-0 translate-y-[50px]': !shown, 'opacity-100 translate-y-0': shown }"
+											style="transition-delay: 200ms">
+											<div class="relative rounded-lg overflow-hidden cursor-pointer group">
+													<img src="https://images.unsplash.com/photo-1511684633137-6b5fc88b3dbc?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTkyfHxib2F0fGVufDB8fDB8fHww" 
+															alt="Надувні човни" 
+															class="w-full h-64 object-cover transition duration-300 group-hover:scale-110">
+													<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-black/20 opacity-0 group-hover:opacity-100 transition duration-300">
+															<div class="absolute bottom-0 left-0 right-0 p-6">
+																	<h3 class="text-white text-xl font-semibold transform transition duration-300 translate-y-4 group-hover:translate-y-0">
+																			Надувні човни
+																	</h3>
+																	<p class="text-gray-300 mt-2 opacity-0 group-hover:opacity-100 transition duration-300 delay-100">
+																			Компактні та легкі у транспортуванні
+																	</p>
+															</div>
+													</div>
+											</div>
+									</div>
+
+									<div x-data="{ shown: false }" 
+											x-intersect="shown = true"
+											class="transition-all duration-700"
+											:class="{ 'opacity-0 translate-y-[50px]': !shown, 'opacity-100 translate-y-0': shown }"
+											style="transition-delay: 400ms">
+											<div class="relative rounded-lg overflow-hidden cursor-pointer group">
+													<img src="https://images.unsplash.com/photo-1561562176-d1d598e49589?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTk5fHxib2F0fGVufDB8fDB8fHww" 
+															alt="Рибальські човни" 
+															class="w-full h-64 object-cover transition duration-300 group-hover:scale-110">
+													<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-black/20 opacity-0 group-hover:opacity-100 transition duration-300">
+															<div class="absolute bottom-0 left-0 right-0 p-6">
+																	<h3 class="text-white text-xl font-semibold transform transition duration-300 translate-y-4 group-hover:translate-y-0">
+																			Рибальські човни
+																	</h3>
+																	<p class="text-gray-300 mt-2 opacity-0 group-hover:opacity-100 transition duration-300 delay-100">
+																			Спеціально обладнані для риболовлі
+																	</p>
+															</div>
+													</div>
+											</div>
+									</div>
+
+									<div x-data="{ shown: false }" 
+											x-intersect="shown = true"
+											class="transition-all duration-700"
+											:class="{ 'opacity-0 translate-y-[50px]': !shown, 'opacity-100 translate-y-0': shown }"
+											style="transition-delay: 600ms">
+											<div class="relative rounded-lg overflow-hidden cursor-pointer group">
+													<img src="https://images.unsplash.com/photo-1550516444-853f8ef3d31b?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjcxfHxib2F0fGVufDB8fDB8fHww" 
+															alt="Спортивні човни" 
+															class="w-full h-64 object-cover transition duration-300 group-hover:scale-110">
+													<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-black/20 opacity-0 group-hover:opacity-100 transition duration-300">
+															<div class="absolute bottom-0 left-0 right-0 p-6">
+																	<h3 class="text-white text-xl font-semibold transform transition duration-300 translate-y-4 group-hover:translate-y-0">
+																			Спортивні човни
+																	</h3>
+																	<p class="text-gray-300 mt-2 opacity-0 group-hover:opacity-100 transition duration-300 delay-100">
+																			Швидкісні човни для активного відпочинку
+																	</p>
+															</div>
+													</div>
+											</div>
+									</div>
+							</div>
+					</div>
+			</section>
+
+			<!-- 3. Переваги -->
+			<section id="advantages" class="py-20 bg-gray-50">
+					<div class="container mx-auto px-4">
+							<div class="text-center max-w-3xl mx-auto mb-16">
+									<span class="text-blue-600 font-semibold tracking-wider uppercase text-sm">Чому обирають нас</span>
+									<h2 class="text-3xl md:text-4xl font-bold mt-2 mb-4">Переваги наших човнів</h2>
+									<div class="w-20 h-1 bg-blue-600 mx-auto mb-4"></div>
+									<p class="text-gray-600">Якість, надійність та інновації - основні принципи нашої роботи</p>
+							</div>
+							<div class="grid md:grid-cols-3 gap-8">
+									<div x-data="{ shown: false }" 
+											x-intersect="shown = true"
+											class="transition-all duration-700"
+											:class="{ 'opacity-0 translate-y-[50px]': !shown, 'opacity-100 translate-y-0': shown }"
+											style="transition-delay: 0ms">
+											<div class="bg-white p-6 rounded-lg shadow-lg">
+													<div class="text-blue-600 text-4xl mb-4">
+															<i class="fas fa-shield-alt"></i>
+													</div>
+													<h3 class="text-xl font-semibold mb-3">Українське виробництво</h3>
+													<p class="text-gray-600">Всі човни виготовляються на території України з дотриманням європейських стандартів якості</p>
+											</div>
+									</div>
+
+									<div x-data="{ shown: false }" 
+											x-intersect="shown = true"
+											class="transition-all duration-700"
+											:class="{ 'opacity-0 translate-y-[50px]': !shown, 'opacity-100 translate-y-0': shown }"
+											style="transition-delay: 200ms">
+											<div class="bg-white p-6 rounded-lg shadow-lg">
+													<div class="text-blue-600 text-4xl mb-4">
+															<i class="fas fa-medal"></i>
+													</div>
+													<h3 class="text-xl font-semibold mb-3">5 років гарантії</h3>
+													<p class="text-gray-600">Надаємо розширену гарантію та постгарантійне обслуговування на всі моделі</p>
+											</div>
+									</div>
+
+									<div x-data="{ shown: false }" 
+											x-intersect="shown = true"
+											class="transition-all duration-700"
+											:class="{ 'opacity-0 translate-y-[50px]': !shown, 'opacity-100 translate-y-0': shown }"
+											style="transition-delay: 400ms">
+											<div class="bg-white p-6 rounded-lg shadow-lg">
+													<div class="text-blue-600 text-4xl mb-4">
+															<i class="fas fa-tools"></i>
+													</div>
+													<h3 class="text-xl font-semibold mb-3">Сервісні центри</h3>
+													<p class="text-gray-600">Мережа сервісних центрів по всій Україні для швидкого обслуговування</p>
+											</div>
+									</div>
+
+									<!-- Новая карточка 4 -->
+									<div x-data="{ shown: false }" 
+											x-intersect="shown = true"
+											class="transition-all duration-700"
+											:class="{ 'opacity-0 translate-y-[50px]': !shown, 'opacity-100 translate-y-0': shown }"
+											style="transition-delay: 600ms">
+											<div class="bg-white p-6 rounded-lg shadow-lg">
+													<div class="text-blue-600 text-4xl mb-4">
+															<i class="fas fa-truck-fast"></i>
+													</div>
+													<h3 class="text-xl font-semibold mb-3">Швидка доставка</h3>
+													<p class="text-gray-600">Доставляємо човни по всій Україні протягом 2-3 робочих днів</p>
+											</div>
+									</div>
+
+									<!-- Новая карточка 5 -->
+									<div x-data="{ shown: false }" 
+											x-intersect="shown = true"
+											class="transition-all duration-700"
+											:class="{ 'opacity-0 translate-y-[50px]': !shown, 'opacity-100 translate-y-0': shown }"
+											style="transition-delay: 800ms">
+											<div class="bg-white p-6 rounded-lg shadow-lg">
+													<div class="text-blue-600 text-4xl mb-4">
+															<i class="fas fa-credit-card"></i>
+													</div>
+													<h3 class="text-xl font-semibold mb-3">Зручна оплата</h3>
+													<p class="text-gray-600">Можливість оплати частинами та кредит від провідних банків України</p>
+											</div>
+									</div>
+
+									<!-- Новая карточка 6 -->
+									<div x-data="{ shown: false }" 
+											x-intersect="shown = true"
+											class="transition-all duration-700"
+											:class="{ 'opacity-0 translate-y-[50px]': !shown, 'opacity-100 translate-y-0': shown }"
+											style="transition-delay: 1000ms">
+											<div class="bg-white p-6 rounded-lg shadow-lg">
+													<div class="text-blue-600 text-4xl mb-4">
+															<i class="fas fa-life-ring"></i>
+													</div>
+													<h3 class="text-xl font-semibold mb-3">Навчання та підтримка</h3>
+													<p class="text-gray-600">Безкоштовне навчання керуванню та технічна підтримка 24/7</p>
+											</div>
+									</div>
+							</div>
+					</div>
+			</section>
+
+			<!-- 4. Карточки товару -->
+			<section id="products" class="py-20 bg-white">
+					<div class="container mx-auto px-4">
+							<div class="text-center max-w-3xl mx-auto mb-16">
+									<span class="text-blue-600 font-semibold tracking-wider uppercase text-sm">Топ продажів</span>
+									<h2 class="text-3xl md:text-4xl font-bold mt-2 mb-4">Популярні моделі човнів</h2>
+									<div class="w-20 h-1 bg-blue-600 mx-auto mb-4"></div>
+									<p class="text-gray-600">Найкращі пропозиції, які обрали наші клієнти</p>
+							</div>
+							<div class="relative">
+									<div class="swiper productsSwiper">
+											<div class="swiper-wrapper">
+													<div class="swiper-slide">
+															<article x-data="{ shown: false }" x-intersect="shown = true" style="transition-delay: 0ms" class="bg-white rounded-lg shadow-lg overflow-hidden group transition-all duration-700"
+																 :class="{ 'opacity-0 translate-y-[50px]': !shown, 'opacity-100 translate-y-0': shown }">
+																	<div class="relative">
+																			<img src="https://images.unsplash.com/photo-1568476612160-787b6a1d5fb1?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjgyfHxib2F0fGVufDB8fDB8fHww" 
+																					alt="Човен Navigator 330" 
+																					class="w-full h-48 object-cover">
+																			<button class="absolute top-4 right-4 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:text-blue-600 transition"
+																							@click="compareCount++">
+																				<i class="fa-solid fa-scale-unbalanced"></i>
+																			</button>
+																	</div>
+																	<div class="p-6">
+																			<h3 class="text-xl font-semibold mb-2">Navigator 330</h3>
+																			<p class="text-gray-600 mb-4">Надійний човен для риболовлі та відпочинку</p>
+																			<div class="flex justify-between items-center">
+																					<span class="text-2xl font-bold text-blue-600">25 000 ₴</span>
+																					<button class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition flex items-center space-x-2"
+																									@click="cartCount++">
+																							<i class="fas fa-shopping-cart"></i>
+																							<span>Купити</span>
+																					</button>
+																			</div>
+																	</div>
+																</article>
+													</div>
+
+													<div class="swiper-slide">
+															<article x-data="{ shown: false }" x-intersect="shown = true" style="transition-delay: 100ms" class="bg-white rounded-lg shadow-lg overflow-hidden group transition-all duration-700"
+																 :class="{ 'opacity-0 translate-y-[50px]': !shown, 'opacity-100 translate-y-0': shown }">
+																	<div class="relative">
+																			<img src="https://images.unsplash.com/photo-1598791095329-2af40856ac79?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjg4fHxib2F0fGVufDB8fDB8fHww" 
+																					alt="Човен Explorer 280" 
+																					class="w-full h-48 object-cover">
+																			<button class="absolute top-4 right-4 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:text-blue-600 transition"
+																							@click="compareCount++">
+																							<i class="fa-solid fa-scale-unbalanced"></i>
+																			</button>
+																	</div>
+																	<div class="p-6">
+																			<h3 class="text-xl font-semibold mb-2">Explorer 280</h3>
+																			<p class="text-gray-600 mb-4">Компактний човен для активного відпочинку</p>
+																			<div class="flex justify-between items-center">
+																					<span class="text-2xl font-bold text-blue-600">32 000 ₴</span>
+																					<button class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition flex items-center space-x-2"
+																									@click="cartCount++">
+																							<i class="fas fa-shopping-cart"></i>
+																							<span>Купити</span>
+																					</button>
+																			</div>
+																	</div>
+																</article>
+													</div>
+
+													<div class="swiper-slide">
+															<article x-data="{ shown: false }" x-intersect="shown = true" style="transition-delay: 200ms" class="bg-white rounded-lg shadow-lg overflow-hidden group transition-all duration-700"
+																 :class="{ 'opacity-0 translate-y-[50px]': !shown, 'opacity-100 translate-y-0': shown }">
+																	<div class="relative">
+																			<img src="https://images.unsplash.com/photo-1695248936418-85b67ade635c?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzAwfHxib2F0fGVufDB8fDB8fHww" 
+																					alt="Човен ProMarine 420" 
+																					class="w-full h-48 object-cover">
+																			<button class="absolute top-4 right-4 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:text-blue-600 transition"
+																							@click="compareCount++">
+																				<i class="fa-solid fa-scale-unbalanced"></i>
+																			</button>
+																	</div>
+																	<div class="p-6">
+																			<h3 class="text-xl font-semibold mb-2">ProMarine 420</h3>
+																			<p class="text-gray-600 mb-4">Професійний човен для серйозної риболовлі</p>
+																			<div class="flex justify-between items-center">
+																					<span class="text-2xl font-bold text-blue-600">45 000 ₴</span>
+																					<button class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition flex items-center space-x-2"
+																									@click="cartCount++">
+																							<i class="fas fa-shopping-cart"></i>
+																							<span>Купити</span>
+																					</button>
+																			</div>
+																	</div>
+																</article>
+													</div>
+
+													<div class="swiper-slide">
+															<article x-data="{ shown: false }" x-intersect="shown = true" style="transition-delay: 300ms" class="bg-white rounded-lg shadow-lg overflow-hidden group transition-all duration-700"
+																 :class="{ 'opacity-0 translate-y-[50px]': !shown, 'opacity-100 translate-y-0': shown }">
+																	<div class="relative">
+																			<img src="https://images.unsplash.com/photo-1686683103975-0d452af4f3a8?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzMxfHxib2F0fGVufDB8fDB8fHww" 
+																					alt="Човен SpeedMaster 380" 
+																					class="w-full h-48 object-cover">
+																			<button class="absolute top-4 right-4 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:text-blue-600 transition"
+																							@click="compareCount++">
+																					<i class="fa-solid fa-scale-unbalanced"></i>
+																			</button>
+																	</div>
+																	<div class="p-6">
+																			<h3 class="text-xl font-semibold mb-2">SpeedMaster 380</h3>
+																			<p class="text-gray-600 mb-4">Швидкісний човен для активного відпочинку</p>
+																			<div class="flex justify-between items-center">
+																					<span class="text-2xl font-bold text-blue-600">52 000 ₴</span>
+																					<button class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition flex items-center space-x-2"
+																									@click="cartCount++">
+																							<i class="fas fa-shopping-cart"></i>
+																							<span>Купити</span>
+																					</button>
+																			</div>
+																	</div>
+																</article>
+													</div>
+													<div class="swiper-slide">
+															<article x-data="{ shown: false }" x-intersect="shown = true" style="transition-delay: 400ms" class="bg-white rounded-lg shadow-lg overflow-hidden group transition-all duration-700"
+																 :class="{ 'opacity-0 translate-y-[50px]': !shown, 'opacity-100 translate-y-0': shown }">
+																	<div class="relative">
+																			<img src="https://images.unsplash.com/photo-1648484983838-b47185140bee?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHNwb3J0JTIwYm9hdHxlbnwwfHwwfHx8MA%3D%3D" 
+																					alt="Човен SpeedMaster 380" 
+																					class="w-full h-48 object-cover">
+																			<button class="absolute top-4 right-4 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-600 hover:text-blue-600 transition"
+																							@click="compareCount++">
+																					<i class="fa-solid fa-scale-unbalanced"></i>
+																			</button>
+																	</div>
+																	<div class="p-6">
+																			<h3 class="text-xl font-semibold mb-2">WaterBike 380</h3>
+																			<p class="text-gray-600 mb-4">Швидкісний водний мотоцикл для драйвового відпочинку</p>
+																			<div class="flex justify-between items-center">
+																					<span class="text-2xl font-bold text-blue-600">30 000 ₴</span>
+																					<button class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition flex items-center space-x-2"
+																									@click="cartCount++">
+																							<i class="fas fa-shopping-cart"></i>
+																							<span>Купити</span>
+																					</button>
+																			</div>
+																	</div>
+																</article>
+													</div>
+											</div>
+											<div class="swiper-button-prev"></div>
+											<div class="swiper-button-next"></div>
+									</div>
+							</div>
+
+							<!-- View All Button -->
+							<div class="text-center mt-12">
+									<button class="bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition inline-flex items-center space-x-2">
+											<span class="flex items-center gap-2">
+													<span>Переглянути всі моделі</span>
+													<i class="fas fa-arrow-right"></i>
+											</span>
+									</button>
+							</div>
+					</div>
+			</section>
+
+			<!-- 5. Фото з Instagram -->
+			<section class="py-20 bg-gray-50">
+					<div class="container mx-auto px-4">
+							<div class="text-center max-w-3xl mx-auto mb-16">
+									<span class="text-blue-600 font-semibold tracking-wider uppercase text-sm">Соціальні мережі</span>
+									<h2 class="text-3xl md:text-4xl font-bold mt-2 mb-4">Приєднуйтесь до нас в Instagram</h2>
+									<div class="w-20 h-1 bg-blue-600 mx-auto mb-4"></div>
+									<p class="text-gray-600">Слідкуйте за новинками та діліться враженнями від використання наших човнів</p>
+							</div>
+							<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+									<div x-data="{ shown: false }" 
+											x-intersect="shown = true"
+											class="transition-all duration-700"
+											:class="{ 'opacity-0 translate-y-[50px]': !shown, 'opacity-100 translate-y-0': shown }"
+											style="transition-delay: 0ms">
+											<div class="relative rounded-lg overflow-hidden cursor-pointer group">
+													<img src="https://images.unsplash.com/photo-1564335994591-2ffbf533d635?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjN8fGdpcmwlMjBvbiUyMGJvYXR8ZW58MHx8MHx8fDA%3D" 
+															alt="Instagram" 
+															class="w-full aspect-square object-cover transition duration-300 group-hover:scale-110">
+													<div class="absolute inset-0 bg-gradient-to-t from-black/90 to-black/20 opacity-0 group-hover:opacity-100 transition duration-300">
+															<div class="absolute bottom-0 left-0 right-0 p-4">
+																	<div class="flex items-center text-white mb-2">
+																			<i class="fab fa-instagram mr-2"></i>
+																			<span class="font-medium">@boatmaster_ukraine</span>
+																	</div>
+																	<div class="flex items-center text-gray-300 text-sm">
+																			<div class="flex items-center mr-4">
+																					<i class="fas fa-heart mr-1"></i>
+																					<span>1,234</span>
+																			</div>
+																			<div class="text-gray-400">21 грудня 2023</div>
+																	</div>
+															</div>
+													</div>
+											</div>
+									</div>
+
+									<div x-data="{ shown: false }" 
+											x-intersect="shown = true"
+											class="transition-all duration-700"
+											:class="{ 'opacity-0 translate-y-[50px]': !shown, 'opacity-100 translate-y-0': shown }"
+											style="transition-delay: 100ms">
+											<div class="relative rounded-lg overflow-hidden cursor-pointer group">
+													<img src="https://plus.unsplash.com/premium_photo-1663090243554-5e2ab0b3d8fc?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTA1fHxnaXJsJTIwb24lMjBib2F0fGVufDB8fDB8fHww" 
+															alt="Instagram" 
+															class="w-full aspect-square object-cover transition duration-300 group-hover:scale-110">
+													<div class="absolute inset-0 bg-gradient-to-t from-black/90 to-black/20 opacity-0 group-hover:opacity-100 transition duration-300">
+															<div class="absolute bottom-0 left-0 right-0 p-4">
+																	<div class="flex items-center text-white mb-2">
+																			<i class="fab fa-instagram mr-2"></i>
+																			<span class="font-medium">@boatmaster_ukraine</span>
+																	</div>
+																	<div class="flex items-center text-gray-300 text-sm">
+																			<div class="flex items-center mr-4">
+																					<i class="fas fa-heart mr-1"></i>
+																					<span>2,567</span>
+																			</div>
+																			<div class="text-gray-400">19 грудня 2023</div>
+																	</div>
+															</div>
+													</div>
+											</div>
+									</div>
+
+									<div x-data="{ shown: false }" 
+											x-intersect="shown = true"
+											class="transition-all duration-700"
+											:class="{ 'opacity-0 translate-y-[50px]': !shown, 'opacity-100 translate-y-0': shown }"
+											style="transition-delay: 200ms">
+											<div class="relative rounded-lg overflow-hidden cursor-pointer group">
+													<img src="https://plus.unsplash.com/premium_photo-1661811412990-89e53022a6cc?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8bWFuJTIwb24lMjBib2F0fGVufDB8fDB8fHww" 
+															alt="Instagram" 
+															class="w-full aspect-square object-cover transition duration-300 group-hover:scale-110">
+													<div class="absolute inset-0 bg-gradient-to-t from-black/90 to-black/20 opacity-0 group-hover:opacity-100 transition duration-300">
+															<div class="absolute bottom-0 left-0 right-0 p-4">
+																	<div class="flex items-center text-white mb-2">
+																			<i class="fab fa-instagram mr-2"></i>
+																			<span class="font-medium">@boatmaster_ukraine</span>
+																	</div>
+																	<div class="flex items-center text-gray-300 text-sm">
+																			<div class="flex items-center mr-4">
+																					<i class="fas fa-heart mr-1"></i>
+																					<span>3,129</span>
+																			</div>
+																			<div class="text-gray-400">18 грудня 2023</div>
+																	</div>
+															</div>
+													</div>
+											</div>
+									</div>
+
+									<div x-data="{ shown: false }" 
+											x-intersect="shown = true"
+											class="transition-all duration-700"
+											:class="{ 'opacity-0 translate-y-[50px]': !shown, 'opacity-100 translate-y-0': shown }"
+											style="transition-delay: 300ms">
+											<div class="relative rounded-lg overflow-hidden cursor-pointer group">
+													<img src="https://plus.unsplash.com/premium_photo-1684917943033-e8e165a8a03a?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTN8fGdpcmwlMjBvbiUyMGJvYXR8ZW58MHx8MHx8fDA%3D" 
+															alt="Instagram" 
+															class="w-full aspect-square object-cover transition duration-300 group-hover:scale-110">
+													<div class="absolute inset-0 bg-gradient-to-t from-black/90 to-black/20 opacity-0 group-hover:opacity-100 transition duration-300">
+															<div class="absolute bottom-0 left-0 right-0 p-4">
+																	<div class="flex items-center text-white mb-2">
+																			<i class="fab fa-instagram mr-2"></i>
+																			<span class="font-medium">@boatmaster_ukraine</span>
+																	</div>
+																	<div class="flex items-center text-gray-300 text-sm">
+																			<div class="flex items-center mr-4">
+																					<i class="fas fa-heart mr-1"></i>
+																					<span>1,876</span>
+																			</div>
+																			<div class="text-gray-400">17 грудня 2023</div>
+																	</div>
+															</div>
+													</div>
+											</div>
+									</div>
+
+									<div x-data="{ shown: false }" 
+											x-intersect="shown = true"
+											class="transition-all duration-700"
+											:class="{ 'opacity-0 translate-y-[50px]': !shown, 'opacity-100 translate-y-0': shown }"
+											style="transition-delay: 400ms">
+											<div class="relative rounded-lg overflow-hidden cursor-pointer group">
+													<img src="https://images.unsplash.com/photo-1533061271216-3124410db289?q=80&w=3982&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+															alt="Instagram" 
+															class="w-full aspect-square object-cover transition duration-300 group-hover:scale-110">
+													<div class="absolute inset-0 bg-gradient-to-t from-black/90 to-black/20 opacity-0 group-hover:opacity-100 transition duration-300">
+															<div class="absolute bottom-0 left-0 right-0 p-4">
+																	<div class="flex items-center text-white mb-2">
+																			<i class="fab fa-instagram mr-2"></i>
+																			<span class="font-medium">@boatmaster_ukraine</span>
+																	</div>
+																	<div class="flex items-center text-gray-300 text-sm">
+																			<div class="flex items-center mr-4">
+																					<i class="fas fa-heart mr-1"></i>
+																					<span>2,345</span>
+																			</div>
+																			<div class="text-gray-400">16 грудня 2023</div>
+																	</div>
+															</div>
+													</div>
+											</div>
+									</div>
+
+									<div x-data="{ shown: false }" 
+											x-intersect="shown = true"
+											class="transition-all duration-700"
+											:class="{ 'opacity-0 translate-y-[50px]': !shown, 'opacity-100 translate-y-0': shown }"
+											style="transition-delay: 500ms">
+											<div class="relative rounded-lg overflow-hidden cursor-pointer group">
+													<img src="https://images.unsplash.com/photo-1483984812800-387c7b52d147?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTI3fHxnaXJsJTIwb24lMjBib2F0fGVufDB8fDB8fHww" 
+															alt="Instagram" 
+															class="w-full aspect-square object-cover transition duration-300 group-hover:scale-110">
+													<div class="absolute inset-0 bg-gradient-to-t from-black/90 to-black/20 opacity-0 group-hover:opacity-100 transition duration-300">
+															<div class="absolute bottom-0 left-0 right-0 p-4">
+																	<div class="flex items-center text-white mb-2">
+																			<i class="fab fa-instagram mr-2"></i>
+																			<span class="font-medium">@boatmaster_ukraine</span>
+																	</div>
+																	<div class="flex items-center text-gray-300 text-sm">
+																			<div class="flex items-center mr-4">
+																					<i class="fas fa-heart mr-1"></i>
+																					<span>1,987</span>
+																			</div>
+																			<div class="text-gray-400">15 грудня 2023</div>
+																	</div>
+															</div>
+													</div>
+											</div>
+									</div>
+
+									<div x-data="{ shown: false }" 
+											x-intersect="shown = true"
+											class="transition-all duration-700"
+											:class="{ 'opacity-0 translate-y-[50px]': !shown, 'opacity-100 translate-y-0': shown }"
+											style="transition-delay: 600ms">
+											<div class="relative rounded-lg overflow-hidden cursor-pointer group">
+													<img src="https://plus.unsplash.com/premium_photo-1661963635803-a003e13c67c6?q=80&w=3931&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+															alt="Instagram" 
+															class="w-full aspect-square object-cover transition duration-300 group-hover:scale-110">
+													<div class="absolute inset-0 bg-gradient-to-t from-black/90 to-black/20 opacity-0 group-hover:opacity-100 transition duration-300">
+															<div class="absolute bottom-0 left-0 right-0 p-4">
+																	<div class="flex items-center text-white mb-2">
+																			<i class="fab fa-instagram mr-2"></i>
+																			<span class="font-medium">@boatmaster_ukraine</span>
+																	</div>
+																	<div class="flex items-center text-gray-300 text-sm">
+																			<div class="flex items-center mr-4">
+																					<i class="fas fa-heart mr-1"></i>
+																					<span>2,654</span>
+																			</div>
+																			<div class="text-gray-400">14 грудня 2023</div>
+																	</div>
+															</div>
+													</div>
+											</div>
+									</div>
+
+									<div x-data="{ shown: false }" 
+											x-intersect="shown = true"
+											class="transition-all duration-700"
+											:class="{ 'opacity-0 translate-y-[50px]': !shown, 'opacity-100 translate-y-0': shown }"
+											style="transition-delay: 700ms">
+											<div class="relative rounded-lg overflow-hidden cursor-pointer group">
+													<img src="https://images.unsplash.com/photo-1579626255334-3b37efaeaeb8?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTUwfHxnaXJsJTIwb24lMjBib2F0fGVufDB8fDB8fHww" 
+															alt="Instagram" 
+															class="w-full aspect-square object-cover transition duration-300 group-hover:scale-110">
+													<div class="absolute inset-0 bg-gradient-to-t from-black/90 to-black/20 opacity-0 group-hover:opacity-100 transition duration-300">
+															<div class="absolute bottom-0 left-0 right-0 p-4">
+																	<div class="flex items-center text-white mb-2">
+																			<i class="fab fa-instagram mr-2"></i>
+																			<span class="font-medium">@boatmaster_ukraine</span>
+																	</div>
+																	<div class="flex items-center text-gray-300 text-sm">
+																			<div class="flex items-center mr-4">
+																					<i class="fas fa-heart mr-1"></i>
+																					<span>1,765</span>
+																			</div>
+																			<div class="text-gray-400">13 грудня 2023</div>
+																	</div>
+															</div>
+													</div>
+											</div>
+									</div>
+							</div>
+					</div>
+			</section>
+
+			<!-- 6. Про нас -->
+			<section id="about" class="py-20 bg-white">
+					<div class="container mx-auto px-4">
+							<div class="grid md:grid-cols-2 gap-12 items-center">
+									<div x-data="{ shown: false }" 
+											x-intersect="shown = true"
+											class="transition-all duration-700"
+											:class="{ 'opacity-0 translate-x-[-50px]': !shown, 'opacity-100 translate-x-0': shown }">
+											<span class="text-blue-600 font-semibold tracking-wider uppercase text-sm">Наша історія</span>
+											<h2 class="text-3xl md:text-4xl font-bold mt-2 mb-4">Про нашу компанію</h2>
+											<div class="w-20 h-1 bg-blue-600 mb-6"></div>
+											<p class="text-gray-600 mb-8">
+													BoatMaster - провідний український виробник човнів з 2010 року. 
+													Наша місія - зробити водний відпочинок доступним та безпечним для кожного українця.
+											</p>
+											<ul class="space-y-2">
+													<li class="flex items-center">
+															<span class="text-blue-600 mr-2">✓</span>
+															12+ років досвіду
+													</li>
+													<li class="flex items-center">
+															<span class="text-blue-600 mr-2">✓</span>
+															5000+ задоволених клієнтів
+													</li>
+													<li class="flex items-center">
+															<span class="text-blue-600 mr-2">✓</span>
+															Сервісні центри у 15 містах
+													</li>
+											</ul>
+									</div>
+									<div x-data="{ shown: false }" 
+											x-intersect="shown = true"
+											class="transition-all duration-700"
+											:class="{ 'opacity-0 translate-x-[50px]': !shown, 'opacity-100 translate-x-0': shown }">
+											<img src="https://plus.unsplash.com/premium_photo-1685291260924-5b1e48587e9f?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHNwb3J0JTIwYm9hdHxlbnwwfHwwfHx8MA%3D%3D" 
+													alt="Про компанію" 
+													class="rounded-lg shadow-xl">
+									</div>
+							</div>
+					</div>
+			</section>
+
+			<!-- 7. Відгуки -->
+			<section id="reviews" class="py-20 bg-gray-50">
+					<div class="container mx-auto px-4">
+							<div class="text-center max-w-3xl mx-auto mb-16">
+									<span class="text-blue-600 font-semibold tracking-wider uppercase text-sm">Думка клієнтів</span>
+									<h2 class="text-3xl md:text-4xl font-bold mt-2 mb-4">Що про нас кажуть</h2>
+									<div class="w-20 h-1 bg-blue-600 mx-auto mb-4"></div>
+									<p class="text-gray-600">Відгуки наших задоволених клієнтів про досвід використання човнів</p>
+							</div>
+							<div class="relative">
+									<div class="swiper reviewsSwiper">
+											<div class="swiper-wrapper h-auto">
+													<div class="swiper-slide h-auto">
+															<article x-data="{ shown: false }" 
+																	x-intersect="shown = true" 
+																	style="transition-delay: 0ms"
+																	class="bg-white p-6 rounded-lg shadow-lg h-full transition-all duration-700"
+																	:class="{ 'opacity-0 translate-y-[50px]': !shown, 'opacity-100 translate-y-0': shown }">
+																	<div class="flex items-center mb-4">
+																			<img src="https://i.pravatar.cc/150?img=1" alt="Клієнт" class="rounded-full w-12 h-12 mr-4">
+																			<div>
+																					<h4 class="font-semibold">Олександр Петренко</h4>
+																					<div class="text-yellow-400">★★★★★</div>
+																			</div>
+																	</div>
+																	<p class="text-gray-600">
+																			"Чудовий човен Navigator 330! Використовую другий сезон для риболовлі, дуже задоволений якістю та стійкістю."
+																	</p>
+															</article>
+													</div>
+
+													<div class="swiper-slide h-auto">
+															<article x-data="{ shown: false }" 
+																	x-intersect="shown = true" 
+																	style="transition-delay: 100ms"
+																	class="bg-white p-6 rounded-lg shadow-lg h-full transition-all duration-700"
+																	:class="{ 'opacity-0 translate-y-[50px]': !shown, 'opacity-100 translate-y-0': shown }">
+																	<div class="flex items-center mb-4">
+																			<img src="https://i.pravatar.cc/150?img=2" alt="Клієнт" class="rounded-full w-12 h-12 mr-4">
+																			<div>
+																					<h4 class="font-semibold">Марія Коваленко</h4>
+																					<div class="text-yellow-400">★★★★★</div>
+																			</div>
+																	</div>
+																	<p class="text-gray-600">
+																			"Купили Explorer 280 для сімейного відпочинку. Легкий у транспортуванні та надійний на воді. Рекомендую!"
+																	</p>
+															</article>
+													</div>
+
+													<div class="swiper-slide h-auto">
+															<article x-data="{ shown: false }" 
+																	x-intersect="shown = true" 
+																	style="transition-delay: 200ms"
+																	class="bg-white p-6 rounded-lg shadow-lg h-full transition-all duration-700"
+																	:class="{ 'opacity-0 translate-y-[50px]': !shown, 'opacity-100 translate-y-0': shown }">
+																	<div class="flex items-center mb-4">
+																			<img src="https://i.pravatar.cc/150?img=3" alt="Клієнт" class="rounded-full w-12 h-12 mr-4">
+																			<div>
+																					<h4 class="font-semibold">Віталій Мельник</h4>
+																					<div class="text-yellow-400">★★★★★</div>
+																			</div>
+																	</div>
+																	<p class="text-gray-600">
+																			"ProMarine 420 - найкраща інвестиція для професійної риболовлі. Відмінна стійкість та комфорт."
+																	</p>
+															</article>
+													</div>
+
+													<div class="swiper-slide h-auto">
+															<article x-data="{ shown: false }" 
+																	x-intersect="shown = true" 
+																	style="transition-delay: 300ms"
+																	class="bg-white p-6 rounded-lg shadow-lg h-full transition-all duration-700"
+																	:class="{ 'opacity-0 translate-y-[50px]': !shown, 'opacity-100 translate-y-0': shown }">
+																	<div class="flex items-center mb-4">
+																			<img src="https://i.pravatar.cc/150?img=4" alt="Клієнт" class="rounded-full w-12 h-12 mr-4">
+																			<div>
+																					<h4 class="font-semibold">Ірина Ковальчук</h4>
+																					<div class="text-yellow-400">★★★★★</div>
+																			</div>
+																	</div>
+																	<p class="text-gray-600">
+																			"SpeedMaster 380 перевершив всі очікування. Чудова маневреність та швидкість. Ідеальний для активного відпочинку."
+																	</p>
+															</article>
+													</div>
+											</div>
+											<div class="swiper-button-prev"></div>
+											<div class="swiper-button-next"></div>
+									</div>
+							</div>
+
+							<!-- View All Reviews Button -->
+							<div class="text-center mt-12">
+									<button class="bg-transparent border-2 border-blue-600 text-blue-600 px-8 py-3 rounded-full hover:bg-blue-50 transition inline-flex items-center space-x-2">
+											<span class="flex items-center gap-2">
+													<span>Всі відгуки</span>
+													<i class="fas fa-arrow-right"></i>
+											</span>
+									</button>
+							</div>
+					</div>
+			</section>
+		</main>
+    <!-- Футер -->
+    <footer class="bg-blue-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">BoatMaster</h3>
+                    <p class="text-blue-200">Ваш надійний партнер у виборі човна</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Контакти</h4>
+                    <p class="text-blue-200">Телефон: +38 (067) 123-45-67</p>
+                    <p class="text-blue-200">Email: info@boatmaster.ua</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Адреса</h4>
+                    <p class="text-blue-200">м. Київ, вул. Водна, 123</p>
+                    <p class="text-blue-200">Працюємо: Пн-Пт 9:00-18:00</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Соціальні мережі</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-blue-200 hover:text-white">Instagram</a>
+                        <a href="#" class="text-blue-200 hover:text-white">Facebook</a>
+                        <a href="#" class="text-blue-200 hover:text-white">Telegram</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Функция плавного скролла к отзывам
+        function scrollToReviews() {
+            document.getElementById('reviews').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Инициализация слайдера для продуктов
+        const productsSwiper = new Swiper('.productsSwiper', {
+            slidesPerView: 1,
+            spaceBetween: 32,
+            loop: true,
+            navigation: {
+                nextEl: '.productsSwiper .swiper-button-next',
+                prevEl: '.productsSwiper .swiper-button-prev',
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 2,
+                },
+                1024: {
+                    slidesPerView: 3,
+                },
+                1280: {
+                    slidesPerView: 4,
+                },
+            },
+        });
+
+        // Инициализация слайдера для отзывов
+        const reviewsSwiper = new Swiper('.reviewsSwiper', {
+            slidesPerView: 1,
+            spaceBetween: 32,
+            loop: true,
+            navigation: {
+                nextEl: '.reviewsSwiper .swiper-button-next',
+                prevEl: '.reviewsSwiper .swiper-button-prev',
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 2,
+                },
+                1280: {
+                    slidesPerView: 3,
+                },
+            },
+        });
+    </script>
+</body>
+</html> 
